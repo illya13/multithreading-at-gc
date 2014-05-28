@@ -51,12 +51,12 @@ public class HardwareSpy {
             current = loopBy.apply(i);
             logger.finest("by " + i + " " + current);
             i *= 2;
-        } while (!isChanged(baseLine, current));
+        } while (!hasChanged(baseLine, current));
 
         return i / 4 * 4;
     }
 
-    private static boolean isChanged(long baseLine, long current) {
+    private static boolean hasChanged(long baseLine, long current) {
         return Math.abs(baseLine - current) >= baseLine / 4;
     }
 
@@ -74,7 +74,7 @@ public class HardwareSpy {
         for (int k=1024; k<32*1024*1024; k *= 2) {
             long current = loopOver.apply(new int[k]);
             logger.finest(k + ": " + current);
-            if (isChanged(baseLine, current)) {
+            if (hasChanged(baseLine, current)) {
                 logger.fine("next cache size: " + k / 2 * 4);
                 caches.add(k / 2 * 4);
                 baseLine = current;
@@ -117,8 +117,8 @@ public class HardwareSpy {
         for (int k=1; k<32; k *= 2) {
             long current = loopByThreads.apply(k);
             logger.finest(k + ": " + current);
-            if (isChanged(baseLine, current)) {
-                logger.info("cpu cores: " + k / 2);
+            if (hasChanged(baseLine, current)) {
+                logger.finest("cpu cores: " + k / 2);
                 cores = k / 2;
                 return;
             }
@@ -143,17 +143,24 @@ public class HardwareSpy {
         return caches.get(2);
     }
 
+    public int coreCount() {
+        return cores;
+    }
+
 /*
-    public int coreCount() {...}
     public int isSMP() {...}
     public int isNUMA() {...}
 */
 
     public static void main(String[] args) {
         HardwareSpy hardwareSpy = new HardwareSpy();
+
         logger.info("CPU cache line size: " + hardwareSpy.cacheLineSize());
+
         logger.info("CPU L1 cache size: " + hardwareSpy.cacheL1Size());
         logger.info("CPU L2 cache size: " + hardwareSpy.cacheL2Size());
         logger.info("CPU L3 cache size: " + hardwareSpy.cacheL3Size());
+
+        logger.info("CPU cores count: " + hardwareSpy.coreCount());
     }
 }
