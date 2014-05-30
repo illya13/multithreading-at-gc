@@ -3,6 +3,7 @@ package com.golovachcourses.lecture1;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 import java.util.logging.Logger;
@@ -84,7 +85,16 @@ public class HardwareSpy {
 
     private void initCPUCores() {
         IntFunction<Long> loopByThreads = (int n) -> {
+            CountDownLatch start = new CountDownLatch(n);
+
             Runnable r = () -> {
+                start.countDown();
+                try {
+                    start.await();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 long s = 0;
                 logger.finest(Thread.currentThread().getName());
                 for (int i = 0; i < 1000000000; i++)
