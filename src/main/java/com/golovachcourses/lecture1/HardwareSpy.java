@@ -23,17 +23,17 @@ public class HardwareSpy {
         int[] intArray = new int[64 * 1024 * 1024];
 
         Callable<Long> loopBaseline = () -> {
-            long time = System.nanoTime();
+            long time = System.currentTimeMillis();
             for (int i = 0; i < intArray.length; i++)
                 intArray[i] *= 2;
-            return System.nanoTime() - time;
+            return System.currentTimeMillis() - time;
         };
 
         IntFunction<Long> loopBy = (int dI) -> {
-            long time = System.nanoTime();
+            long time = System.currentTimeMillis();
             for (int i = 0; i < intArray.length; i += dI)
                 intArray[i] *= 2;
-            return System.nanoTime() - time;
+            return System.currentTimeMillis() - time;
         };
 
         long baseLine;
@@ -62,12 +62,12 @@ public class HardwareSpy {
 
     private void initCacheSize() {
         Function<int[], Long> loopOver = (int[] intArray) -> {
-            long time = System.nanoTime();
+            long time = System.currentTimeMillis();
             int steps = 64 * 1024 * 1024; // Arbitrary number of steps
             int lengthMod = intArray.length - 1;
             for (int i = 0; i < steps; i++)
                 intArray[(i * 16) & lengthMod]++; // (x & lengthMod) is equal to (x % arr.Length)
-            return System.nanoTime() - time;
+            return System.currentTimeMillis() - time;
         };
 
         long baseLine = loopOver.apply(new int[128]);
@@ -99,7 +99,7 @@ public class HardwareSpy {
             for (int i=0; i<n; i++)
                 threads[i] = new Thread(r);
 
-            long time = System.nanoTime();
+            long time = System.currentTimeMillis();
             for (int i=0; i<n; i++)
                 threads[i].start();
 
@@ -109,7 +109,7 @@ public class HardwareSpy {
             } catch (InterruptedException ie) {
                 throw new IllegalStateException(ie.getMessage(), ie);
             }
-            return System.nanoTime() - time;
+            return System.currentTimeMillis() - time;
         };
 
         long baseLine = loopByThreads.apply(1);
