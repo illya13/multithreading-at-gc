@@ -97,8 +97,12 @@ public class FalseSharing {
     public static void main(String[] args) {
         FalseSharing falseSharing = new FalseSharing();
 
-        logger.info("v0, v1: " + falseSharing.do_v0_v1());
-        logger.info("v0, v8: " + falseSharing.do_v0_v8());
+        for(int i=0; i<5; i++) {
+            System.out.println("#" + i + " run");
+
+            System.out.println("\tv0 and v1: " + falseSharing.do_v0_v1() + " ms");
+            System.out.println("\tv0 and v8: " + falseSharing.do_v0_v8() + " ms");
+        }
 
         // avoid optimisation
         logger.finest("sum = " + falseSharing.sum());

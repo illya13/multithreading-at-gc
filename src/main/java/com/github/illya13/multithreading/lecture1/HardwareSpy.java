@@ -165,12 +165,16 @@ public class HardwareSpy {
     public static void main(String[] args) {
         HardwareSpy hardwareSpy = new HardwareSpy();
 
-        logger.info("CPU cache line size: " + hardwareSpy.cacheLineSize());
+        for(int i=0; i<5; i++) {
+            System.out.println("#" + i + " run");
 
-        logger.info("CPU L1 cache size: " + hardwareSpy.cacheL1Size());
-        logger.info("CPU L2 cache size: " + hardwareSpy.cacheL2Size());
-        logger.info("CPU L3 cache size: " + hardwareSpy.cacheL3Size());
+            System.out.println("\tCPU cache line size: " + hardwareSpy.cacheLineSize() + " bytes");
 
-        logger.info("CPU cores count: " + hardwareSpy.coreCount());
+            System.out.println("\tCPU L1 cache size: " + hardwareSpy.cacheL1Size() + " bytes");
+            System.out.println("\tCPU L2 cache size: " + hardwareSpy.cacheL2Size() + " bytes");
+            System.out.println("\tCPU L3 cache size: " + hardwareSpy.cacheL3Size() + " bytes");
+
+            System.out.println("\tCPU cores count: " + hardwareSpy.coreCount());
+        }
     }
 }
