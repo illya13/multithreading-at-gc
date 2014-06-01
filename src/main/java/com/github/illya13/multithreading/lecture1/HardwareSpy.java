@@ -163,16 +163,32 @@ public class HardwareSpy {
 */
 
     public static void main(String[] args) {
-        HardwareSpy hardwareSpy = new HardwareSpy();
-
         for(int i=0; i<5; i++) {
             System.out.println("#" + i + " run");
 
-            System.out.println("\tCPU cache line size: " + hardwareSpy.cacheLineSize() + " bytes");
+            HardwareSpy hardwareSpy = new HardwareSpy();
+            System.out.println("\tCPU cache line size: " + hardwareSpy.cacheLineSize() + " Bt");
 
-            System.out.println("\tCPU L1 cache size: " + hardwareSpy.cacheL1Size() + " bytes");
-            System.out.println("\tCPU L2 cache size: " + hardwareSpy.cacheL2Size() + " bytes");
-            System.out.println("\tCPU L3 cache size: " + hardwareSpy.cacheL3Size() + " bytes");
+            int l1 = hardwareSpy.cacheL1Size();
+            System.out.print("\tCPU L1 cache size: " + l1);
+            if (l1 != -1)
+                System.out.println(" Bt = " + l1 / 1024 + " kBt");
+            else
+                System.out.println();
+
+            int l2 = hardwareSpy.cacheL2Size();
+            System.out.print("\tCPU L2 cache size: " + l2);
+            if (l2 != -1)
+                System.out.println(" Bt = " + l2 / 1024 + " kBt");
+            else
+                System.out.println();
+
+            int l3 = hardwareSpy.cacheL3Size();
+            System.out.print("\tCPU L3 cache size: " + l3);
+            if (l3 != -1)
+                System.out.println(" Bt = " + l3 / 1024 + " kBt");
+            else
+                System.out.println();
 
             System.out.println("\tCPU cores count: " + hardwareSpy.coreCount());
         }
