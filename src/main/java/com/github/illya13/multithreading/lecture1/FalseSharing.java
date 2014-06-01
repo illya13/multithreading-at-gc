@@ -1,4 +1,4 @@
-package com.golovachcourses.lecture1;
+package com.github.illya13.multithreading.lecture1;
 
 import java.util.concurrent.*;
 import java.util.logging.Logger;
